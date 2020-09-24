@@ -1,0 +1,92 @@
+@forelse ($posts as $post)
+<div class="card mb-5" >
+    <div class="card-body">
+        <div class="float-right">
+            @if($post->created_at->diffInHours() < 1)
+                {{-- @component('partials.badge',['type'=>'primary'])
+                    New post
+                @endcomponent --}}
+
+                <x-badge type="primary">
+                    New post
+                </x-badge>
+            @else
+                {{-- @component('partials.badge',['type'=>'dark'])
+                    Old Post
+                @endcomponent --}}
+                <x-badge type="dark">
+                    Old Post
+                </x-badge>
+            @endif
+        </div>
+        @if ($post->trashed())
+        <del>
+            <h5 class="card-title">{{ $post->title }}</h5>
+            <p class="card-text">{{ $post->content }}</p>
+            <p>{{ $post->created_at->diffForHumans() }}</p>
+        </del>
+        @else
+        <h5 class="card-title">{{ $post->title }}</h5>
+        <p class="card-text">{{ $post->content }}</p>
+        <p>{{ $post->created_at->diffForHumans() }}</p>
+        @endif
+        @if($post->comments_count)
+        <p class="badge badge-success float-right">Comments {{ $post->comments_count }}</p>
+        @else
+        <p class="badge badge-warning float-right">No comments yet</p>
+        @endif
+
+        {{-- <p class="text-muted">
+            {{ $post->updated_at->diffForHumans() }}<br> by {{ $post->user->name }}
+        </p> --}}
+
+        <x-updated :date="$post->created_at" :name="$post->user->name">Added </x-updated>
+        <x-updated :date="$post->updated_at">Updated </x-updated>
+
+        <a href="{{ route('posts.show', ['post' => $post->id]) }}" class="btn btn-primary">show</a>
+        @can('update',$post)
+        <a href="{{ route('posts.edit', ['post' => $post->id]) }}" class="btn btn-warning">Edit</a>
+        @endcan
+        @cannot('delete',$post)
+            {{-- @component('partials.badge',['type'=>'danger','float'=>'float-right'])
+                Mat9adch tssuprimi had post !
+            @endcomponent --}}
+            <x-badge type="danger" float="float-right">
+                Mat9adch tssuprimi had post !
+            </x-badge>
+        @endcannot
+        @if (!$post->deleted_at)
+        @can('delete',$post)
+        <div class="form-group mt-1 float-right">
+            <form action="{{ route('posts.destroy', ['post' => $post->id]) }}" method="POST">
+                @csrf
+                @method('DELETE')
+                <button type="submit" class="btn btn-danger mt-2">Delete</button>
+            </form>
+        </div>
+        @endcan
+        @else
+        <div class="form-group mt-1 float-right">
+            @can('delete',$post)
+            <form class="form d-inline" action="{{ URL('/posts/' . $post->id . '/restore') }}" method="POST">
+                @csrf
+                @method('PATCH')
+                <button type="submit" class="btn btn-success">Restore Post</button>
+            </form>
+            @endcan
+            @can('forcedelete',$post)
+            <form class="form d-inline" action="{{ URL('/posts/' . $post->id . '/forcedelete') }}" method="POST">
+                @csrf
+                @method('DELETE')
+                <button type="submit" class="btn btn-danger">Force Delete</button>
+            </form>
+            @endcan
+        </div>
+        @endif
+    </div>
+</div>
+@empty
+<div class="col-6">
+    <p class="alert alert-danger">No Data</p>
+</div>
+@endforelse
