@@ -14,12 +14,12 @@
         </div>
         @if ($item->trashed())
         <del>
-            <h5 class="card-title">{{ $item->title }}</h5>
+            <a href="{{ route('posts.show', ['post' => $item->id]) }}"><h5 class="card-title">{{ $item->title }}</h5></a>
             <p class="card-text">{{ $item->content }}</p>
             <p>{{ $item->created_at->diffForHumans() }}</p>
         </del>
         @else
-        <h5 class="card-title">{{ $item->title }}</h5>
+        <a href="{{ route('posts.show', ['post' => $item->id]) }}"><h5 class="card-title">{{ $item->title }}</h5></a>
         <p class="card-text">{{ $item->content }}</p>
         <p>{{ $item->created_at->diffForHumans() }}</p>
         @endif

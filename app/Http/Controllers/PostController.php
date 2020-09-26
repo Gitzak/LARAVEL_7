@@ -67,7 +67,7 @@ class PostController extends Controller
             // 'posts' => Post::all(),
             // 'posts' => Post::withCount('comments')->orderBy('updated_at','DESC')->get(),
             // 'posts' => Post::withCount('comments')->with('user')->with('tags')->get(),
-            'posts' => Post::withCount('comments')->with(['user','tags'])->get(),
+            'posts' => Post::PostWithUserCommentsTags()->get(),
             // 'mostCommented' => $mostCommented,
             // 'mostUserActive' => $mostUserActive,
             // 'mostUserActiveInLastMonth' => $mostUserActiveInLastMonth,
@@ -175,7 +175,7 @@ class PostController extends Controller
     public function show($id)
     {
         $postShow = Cache::remember("post-show-{$id}", 60, function () use($id) {
-            return Post::with('comments')->findOrFail($id);
+            return Post::with('comments','tags','comments.user')->findOrFail($id);
         });
         // dd(\App\Post::find($id));
         return view('posts.show', [

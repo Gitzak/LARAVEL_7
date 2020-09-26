@@ -19,6 +19,8 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+
+    <link rel="stylesheet" href="{{ asset('css/bootstrap-design.min.css') }}">
     <style>
         .btn-warning{
             background-color: rgb(241, 148, 26) !important;

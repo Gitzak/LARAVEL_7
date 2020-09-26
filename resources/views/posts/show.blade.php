@@ -18,10 +18,12 @@
                         @endif
                     </p>
                     <hr>
+                    @include('comments.add_comment', ['id' => $post->id])
                     <h3>Comment(s)</h3>
                     @foreach($post->comments as $comment)
-                        <span>{{ $comment->updated_at->diffForHumans() }}</span>
                         <p>{{ $comment->content }}</p>
+                        <span>Added {{ $comment->created_at->diffForHumans() }} | By {{ $comment->user->name }}</span>
+                        <hr>
                     @endForeach
                 </div>
             </div>

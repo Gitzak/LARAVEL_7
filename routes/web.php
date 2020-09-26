@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\PostCommentController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -75,3 +76,5 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('/posts/tag/{id}', 'PostTagController@index')->name('posts.tag.index');
 
+
+Route::resource('posts.comments','PostCommentController')->only(['store']);

@@ -10,15 +10,15 @@ use Illuminate\View\View;
 class ActivityComposer
 {
     public function Compose(View $view){
-        $mostCommented = Cache::remember('mostCommented', now()->addSeconds(10), function () {
+        $mostCommented = Cache::remember('mostCommented', now()->addMinutes(10), function () {
             return Post::mostCommented()->take(5)->get();
         });
 
-        $mostUserActive = Cache::remember('mostUserActive', now()->addSeconds(10), function () {
+        $mostUserActive = Cache::remember('mostUserActive', now()->addMinutes(10), function () {
             return User::mostUserActive()->take(5)->get();
         });
 
-        $mostUserActiveInLastMonth = Cache::remember('mostUserActiveInLastMonth', now()->addSeconds(10), function () {
+        $mostUserActiveInLastMonth = Cache::remember('mostUserActiveInLastMonth', now()->addMinutes(10), function () {
             return User::mostUserActiveInLastMonth()->take(5)->get();
         });
 

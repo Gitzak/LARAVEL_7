@@ -32,6 +32,10 @@ class Post extends Model
         return $query->withCount('comments')->orderBy('comments_count','DESC');
     }
 
+    public function scopePostWithUserCommentsTags(Builder $query){
+        return $query->withCount('comments')->with(['user','tags']);
+    }
+
     public static function boot(){
         
         static::addGlobalScope(new AdminShopDeleteScope);
