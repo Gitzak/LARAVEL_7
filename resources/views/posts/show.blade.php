@@ -5,6 +5,9 @@
         <div class="col-8">
             <div class="card">
                 <div class="card-body">
+                    @if($post->image)
+                    <img class="img-fluid my-3" src="{{ $post->image->url_image_path() }}" alt="">
+                    @endif
                     <h5 class="card-title">{{ $post->title }}</h5>
                     <x-tags :tags="$post->tags"></x-tags>
                     <p class="card-text mt-2">{{ $post->content }}</p>

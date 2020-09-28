@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StorePost;
+use App\Image;
 use App\Post;
 use App\User;
 use Illuminate\Http\Request;
@@ -10,6 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class PostController extends Controller
@@ -129,6 +131,7 @@ class PostController extends Controller
     // public function store(Request $request)
     public function store(StorePost $request)
     {
+
         // dd($request->all());
 
         // $validateData = $request->validate([
@@ -154,6 +157,43 @@ class PostController extends Controller
         $data['slug']   = Str::slug($data['title'], '-');
         $data['active'] = false;
         $post           = Post::create($data);
+
+        $hasFile = $request->hasFile('picture');
+
+        if($hasFile){
+            // $file = $request->file('picture');
+            
+            // dump($file);
+                // dump($file->getClientMimeType());
+                // dump($file->clientExtension());
+                // dump($file->getClientOriginalName());
+                
+                // // save file
+                // $file->store('thumbnails');
+                
+                // // save file
+                // Storage::PutFile('thumbnails',$file);
+                // Storage::disk('local')->putFile('thumbnails',$file);
+                
+                // // rename file simple method
+                // $name1 = $file->storeAs('test', random_int(1,100). '.'.$file->clientExtension());
+                
+                // rename file with facade Storage
+                // $name2 = Storage::disk('local')->putFileAs('test', $file, random_int(100,999).'.'.$file->clientExtension());
+                
+                // // dump(Storage::url($name1));
+                // dump(Storage::disk('local')->url($name2));
+                
+                // ! To remember
+                // php artisan storage:link (create symbolique link to storage from public)
+            
+            $path = $request->file('picture')->store('posts_images');
+
+            $image = new Image(['path' => $path]);
+
+            $post->image()->save($image);
+
+        }
 
         // dd($title, 'content '.$content);
         // dd('Done !');
@@ -216,6 +256,7 @@ class PostController extends Controller
     public function update(StorePost $request, $id)
     {
         $post = Post::findOrFail($id);
+        
 
         // if(Gate::denies('post.update',$post)){
         //     abort(403, 'You can\'t Edit this post');
@@ -223,6 +264,23 @@ class PostController extends Controller
 
         // $this->authorize('post.update', $post);
         $this->authorize('update', $post);
+
+        $hasFile = $request->hasFile('picture');
+
+        if($hasFile){
+            // upload
+            $path = $request->file('picture')->store('posts_images');
+            // if 3ando image nsupprimowha 
+            if($post->image){
+                // delete image physiquement
+                Storage::delete($post->image->path);
+                $post->image->path = $path;
+                $post->image->save();
+            }else{
+                $image = new Image(['path' => $path]);
+                $post->image()->save($image);
+            }
+        }
 
         $post->title = $request->input('title');
         $post->content = $request->input('content');

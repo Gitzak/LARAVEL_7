@@ -19,6 +19,10 @@
             <p>{{ $item->created_at->diffForHumans() }}</p>
         </del>
         @else
+        {{-- <img class="img-fluid my-3" src="{{ Storage::url($item->image->path ?? null) }}" alt=""> --}}
+        @if($item->image)
+        <img class="img-fluid my-3" src="{{ $item->image->url_image_path() }}" alt="">
+        @endif
         <a href="{{ route('posts.show', ['post' => $item->id]) }}"><h5 class="card-title">{{ $item->title }}</h5></a>
         <p class="card-text">{{ $item->content }}</p>
         <p>{{ $item->created_at->diffForHumans() }}</p>

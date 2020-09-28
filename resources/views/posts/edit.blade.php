@@ -12,9 +12,13 @@
     </div>
 </div>
 @endif
-    <div class="row">
-        <div class="col-6">
-            <form action="{{ route('posts.update', ['post' => $post->id]) }}" method="POST">
+<div class="row my-5">
+    <div class="col-6">
+        <h3 class="display-4">Update Post</h3>
+            @if($post->image)
+            <img class="img-fluid my-3" src="{{ $post->image->url_image_path() }}" alt="">
+            @endif
+            <form action="{{ route('posts.update', ['post' => $post->id]) }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
                 {{-- <div class="form-group">

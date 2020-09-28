@@ -27,6 +27,7 @@
             <x-card_posts
             :items="collect($posts)">
             </x-card_posts>
+
         </div>
         <div class="col-md-4 col-sm-12">
             @include('posts.sidebar')

@@ -16,6 +16,10 @@ class Post extends Model
     
     protected $fillable = ['title','content','slug','active','user_id'];
 
+    public function image(){
+        return $this->hasOne(Image::class);
+    }
+
     public function comments(){
         return $this->hasMany('App\Comment')->dernier();
     }

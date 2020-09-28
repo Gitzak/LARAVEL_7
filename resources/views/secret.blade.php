@@ -8,6 +8,7 @@
                 <div class="card-header">{{ __('Dashboard') }}</div>
 
                 <div class="card-body">
+                    <img class="img-fluid" src="{{ asset('simple_images/giphy.gif') }}" alt="">
                     <h1>Had page secret</h1>
                 </div>
             </div>
