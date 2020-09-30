@@ -16,8 +16,12 @@ class Post extends Model
     
     protected $fillable = ['title','content','slug','active','user_id'];
 
+    // public function image(){
+    //     return $this->hasOne(Image::class);
+    // }
+
     public function image(){
-        return $this->hasOne(Image::class);
+        return $this->morphOne('App\Image','imageable');
     }
 
     public function comments(){

@@ -38,6 +38,10 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    public function image(){
+        return $this->morphOne('App\Image','imageable');
+    }
+
     public function posts(){
         return $this->hasMany(Post::class);
     }
