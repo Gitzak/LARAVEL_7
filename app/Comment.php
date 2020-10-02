@@ -27,6 +27,10 @@ class Comment extends Model
         return $this->belongsTo('App\User');
     }
 
+    public function tags(){
+        return $this->morphToMany('App\Tag', 'taggable')->withTimestamps();
+    }
+
     public function scopeDernier(Builder $query){
         return $query->orderBy('updated_at','DESC');
     }
@@ -35,9 +39,9 @@ class Comment extends Model
         parent::boot();
 
         // creating ---> clear cache with id post
-        static::creating(function(Comment $comment){
-            Cache::forget("post-show-{$comment->commentable->id}");
-        });
+        // static::creating(function(Comment $comment){
+        //     Cache::forget("post-show-{$comment->commentable->id}");
+        // });
     }
 
 

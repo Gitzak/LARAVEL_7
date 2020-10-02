@@ -36,8 +36,12 @@ class Post extends Model
         return $this->belongsTo(User::class);
     }
 
+    // public function tags(){
+    //     return $this->belongsToMany('App\Tag')->withTimestamps();
+    // }
+
     public function tags(){
-        return $this->belongsToMany('App\Tag')->withTimestamps();
+        return $this->morphToMany('App\Tag', 'taggable')->withTimestamps();
     }
 
     public function scopeMostCommented(Builder $query){
