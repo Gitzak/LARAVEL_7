@@ -46,8 +46,12 @@ class User extends Authenticatable
         return $this->hasMany(Post::class);
     }
 
+    // public function Comments(){
+    //     return $this->hasMany(Comment::class);
+    // }
+
     public function Comments(){
-        return $this->hasMany(Comment::class);
+        return $this->morphMany('App\comment','commentable');
     }
 
     public function scopeMostUserActive(Builder $query){

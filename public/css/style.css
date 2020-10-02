@@ -4,3 +4,8 @@
     border-radius: 50%;
     display: inline-block;
 }
+
+.avatarX2{
+    width: 250px;
+    height: 250px;
+}

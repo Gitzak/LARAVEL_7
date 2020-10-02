@@ -21,13 +21,17 @@
                         @endif
                     </p>
                     <hr>
-                    @include('comments.add_comment', ['id' => $post->id])
+                    {{-- @include('comments.add_comment', ['id' => $post->id]) --}}
+                    <x-comment-form :action="route('posts.comments.store',['post' => $post->id])"></x-comment-form>
                     <h3>Comment(s)</h3>
-                    @foreach($post->comments as $comment)
+                    {{-- @foreach($post->comments as $comment)
                         <p>{{ $comment->content }}</p>
                         <span>Added {{ $comment->created_at->diffForHumans() }} | By {{ $comment->user->name }}</span>
                         <hr>
-                    @endForeach
+                    @empty
+                        <p>No comment yet</p>
+                    @endForeach --}}
+                    <x-comment-list :comments="$post->comments"></x-comment-list>
                 </div>
             </div>
         </div>

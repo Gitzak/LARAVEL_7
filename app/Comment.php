@@ -19,6 +19,10 @@ class Comment extends Model
         return $this->belongsTo('App\Post');
     }
 
+    public function commentable(){
+        return $this->morphTo();
+    }
+
     public function User(){
         return $this->belongsTo('App\User');
     }
@@ -29,13 +33,13 @@ class Comment extends Model
 
     public static function boot(){
         parent::boot();
-        
+
         // creating ---> clear cache with id post
         static::creating(function(Comment $comment){
-            Cache::forget("post-show-{$comment->post->id}");
+            Cache::forget("post-show-{$comment->commentable->id}");
         });
     }
 
 
-    
+
 }

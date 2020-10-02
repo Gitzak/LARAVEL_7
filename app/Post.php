@@ -13,7 +13,7 @@ class Post extends Model
 {
 
     use SoftDeletes;
-    
+
     protected $fillable = ['title','content','slug','active','user_id'];
 
     // public function image(){
@@ -24,8 +24,12 @@ class Post extends Model
         return $this->morphOne('App\Image','imageable');
     }
 
+    // public function comments(){
+    //     return $this->hasMany('App\Comment')->dernier();
+    // }
+
     public function comments(){
-        return $this->hasMany('App\Comment')->dernier();
+        return $this->morphMany('App\Comment','commentable')->dernier();
     }
 
     public function user(){
@@ -45,7 +49,7 @@ class Post extends Model
     }
 
     public static function boot(){
-        
+
         static::addGlobalScope(new AdminShopDeleteScope);
 
         parent::boot();
@@ -69,6 +73,6 @@ class Post extends Model
         });
     }
 
-    // 
+    //
 
 }
