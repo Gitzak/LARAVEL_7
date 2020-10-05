@@ -60,21 +60,21 @@ class Post extends Model
 
         static::addGlobalScope(new LatestScope);
 
-        // Deleting related model using model events
-        static::deleting(function(Post $post){
-            // dd('deleting');
-            $post->comments()->delete();
-        });
+        // // Deleting related model using model events
+        // static::deleting(function(Post $post){
+        //     // dd('deleting');
+        //     // $post->comments()->delete();
+        // });
 
-        // Restoring related model using model events
-        static::restoring(function(Post $post){
-            $post->comments()->restore();
-        });
+        // // Restoring related model using model events
+        // static::restoring(function(Post $post){
+        //     // $post->comments()->restore();
+        // });
 
-        // updating ---> clear cache with id post
-        static::updating(function(Post $post){
-            Cache::forget("post-show-{$post->id}");
-        });
+        // // updating ---> clear cache with id post
+        // static::updating(function(Post $post){
+        //     // Cache::forget("post-show-{$post->id}");
+        // });
     }
 
     //

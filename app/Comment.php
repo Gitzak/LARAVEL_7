@@ -38,10 +38,10 @@ class Comment extends Model
     public static function boot(){
         parent::boot();
 
-        // creating ---> clear cache with id post
-        static::creating(function(Comment $comment){
-            Cache::forget("post-show-{$comment->commentable->id}");
-        });
+        // // creating ---> clear cache with id post
+        // static::creating(function(Comment $comment){
+        //     Cache::forget("post-show-{$comment->commentable->id}");
+        // });
     }
 
 
