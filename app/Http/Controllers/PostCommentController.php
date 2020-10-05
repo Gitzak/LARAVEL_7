@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreComment;
+use App\Jobs\NotifyUsersPostWasCommented;
 use App\Mail\CommentPosted;
 use App\Mail\CommentPostedMarkDown;
 use App\Post;
@@ -27,7 +28,15 @@ class PostCommentController extends Controller
         // Mail::to($post->user->email)->send(new CommentPosted($comment));
 
         // send mail with MarkDown
-        Mail::to($post->user->email)->send(new CommentPostedMarkDown($comment));
+        // Mail::to($post->user->email)->send(new CommentPostedMarkDown($comment));
+
+        // with queue
+        Mail::to($post->user->email)->queue(new CommentPostedMarkDown($comment));
+
+        // later
+        // Mail::to($post->user->email)->later(now()->addSecond(2),new CommentPostedMarkDown($comment));
+
+        NotifyUsersPostWasCommented::dispatch($comment);
 
         return redirect()->back();
     }
