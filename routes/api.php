@@ -17,3 +17,42 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+// Route::group(['prefix' => 'v1'], function () { 
+//     Route::get('/status', function(){
+//         return response()->json([
+//             'status' => 'ok'
+//         ]);
+//     });
+// });
+
+// Route::group(['prefix' => 'v2'], function () { 
+//     Route::get('/status', function(){
+//         return response()->json([
+//             'status' => 'true'
+//         ]);
+//     });
+// });
+
+
+Route::prefix('v1')->name('api.v1.')->namespace('Api\v1')->group(function () { 
+
+    Route::post('/login', 'ApiAuthController@login');
+    
+    Route::get('/status', function(){
+        return response()->json([
+            'status' => 'ok'
+        ]);
+    })->name('status');
+
+    Route::apiResource('posts.comments','PostCommentController');
+
+});
+
+Route::prefix('v2')->name('api.v2.')->group(function () { 
+    Route::get('/status', function(){
+        return response()->json([
+            'status' => 'true'
+        ]);
+    })->name('status');
+});

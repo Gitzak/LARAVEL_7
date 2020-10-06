@@ -16,6 +16,9 @@ class Post extends Model
 
     protected $fillable = ['title','content','slug','active','user_id'];
 
+    protected $hidden = ['created_at','updated_at','user_id'];
+
+
     // public function image(){
     //     return $this->hasOne(Image::class);
     // }

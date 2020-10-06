@@ -6,10 +6,17 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use Notifiable;
+    use HasApiTokens, Notifiable;
+
+    public const LOCALES = [
+        'en' => 'English',
+        'fr' => 'French',
+        'ar' => 'Arabic',
+    ];
 
     /**
      * The attributes that are mass assignable.
@@ -26,7 +33,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token',
+        'password', 'remember_token','email_verified_at',
     ];
 
     /**

@@ -1,0 +1,9 @@
+<?php
+
+return [
+
+    'welcome' => 'Laravel 7 Pro مرحبًا بك في ',
+    'hello_name' => ':name مرحبًا',
+    'plural' => '{0} لا تعليقات|{1} تعليق|[2,*] :count تعليقات'
+
+];

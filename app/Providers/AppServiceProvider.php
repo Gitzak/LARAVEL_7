@@ -3,10 +3,12 @@
 namespace App\Providers;
 
 use App\Comment;
+use App\Http\Resources\CommentResource;
 use App\Post;
 use App\Http\ViewComposers\ActivityComposer;
 use App\Observers\CommentObserver;
 use App\Observers\PostObserver;
+use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -34,5 +36,11 @@ class AppServiceProvider extends ServiceProvider
 
         Post::observe(PostObserver::class);
         Comment::observe(CommentObserver::class);
+
+        // disable wrapping in data returned
+        // CommentResource::withoutWrapping();
+
+        // disable wrapping in data returned in all json
+        JsonResource::withoutWrapping();
     }
 }

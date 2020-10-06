@@ -97,8 +97,14 @@ class UserController extends Controller
                 // $image = new Image(['path' => $path]);
                 $user->image()->save(Image::make(['path' => $path]));
             }
-            return redirect()->back()->withStatus('User Updated !');
+
+            
         }
+        // save lang selected
+        $user->locale = $request->locale;
+        $user->save();
+        
+        return redirect()->back()->withStatus('User Updated !');
     }
 
     /**
